@@ -57,7 +57,7 @@ public class PedidoEntity implements Serializable{
 	@Column(name = "VALOR_PEDIDO")
 	@NotNull(message="Campo valor do pedido não pode ser nulo")
 	@Positive
-	private BigDecimal valor;
+	private Double valor;
 	
 	@Column(name = "DT_EMISSAO")
 	@NotNull(message = "Campo data de emissão não pode ser nula")

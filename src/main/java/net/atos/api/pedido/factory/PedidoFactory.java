@@ -26,7 +26,6 @@ public class PedidoFactory {
 	private PedidoVO transformaVO(PedidoEntity orcEntity) {
 		PedidoVO orcVO = new PedidoVO();
 		orcVO.setDataEmissao(orcEntity.getDataEmissao());
-		orcVO.setQuantidade(orcEntity.getQuantidade());
 		orcVO.setValor(orcEntity.getValor());
 		
 		AtomicInteger numeroItem = new AtomicInteger(); 
@@ -40,14 +39,15 @@ public class PedidoFactory {
 		ItemVO itemVO = new ItemVO();
 		itemVO.setCodigoItem(item.getCodigoItem());
 		itemVO.setPrecoUnitario(item.getPrecoUnitario());
-		
+		itemVO.setDescricao(item.getDescricao());
+		itemVO.setQuantidade(item.getQuantidade());
+		itemVO.setValorItens(item.getValorItens());
 		orcVO.add(itemVO);
 	}
 
 	private PedidoEntity transformaEntity(PedidoVO pedido) {
 		PedidoEntity orcEntity = new PedidoEntity();
 		orcEntity.setDataEmissao(pedido.getDataEmissao());
-		orcEntity.setQuantidade(pedido.getQuantidade());
 		orcEntity.setValor(pedido.getValor());
 		
 		AtomicInteger numeroItem = new AtomicInteger(); 
@@ -64,6 +64,9 @@ public class PedidoFactory {
 		itemEntity.getId().setPedido(orcEntity);
 		itemEntity.setCodigoItem(item.getCodigoItem());
 		itemEntity.setPrecoUnitario(item.getPrecoUnitario());
+		itemEntity.setDescricao(item.getDescricao());
+		itemEntity.setQuantidade(item.getQuantidade());
+		itemEntity.setValorItens(item.getValorItens());
 		
 		orcEntity.add(itemEntity);
 	}

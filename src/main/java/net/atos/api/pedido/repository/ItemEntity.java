@@ -31,6 +31,18 @@ public class ItemEntity implements Serializable {
 	@Column(name = "PRECO_UNITARIO")
 	@NotNull(message = "Campo preço unitario não pode ser nulo")
 	private Double precoUnitario;
+	
+	@Column(name = "DESCRICAO_ITEM")
+	@NotNull(message = "Campo descricao não pode ser nulo")
+	private String descricao;
+	
+	@Column(name = "QTD_ITENS")
+	@NotNull(message = "Campo quantidade não pode ser nulo")
+	private Integer quantidade;
+	
+	@Column(name = "VALOR_ITENS")
+	private Double valorItens;
+	
 }
 
 
