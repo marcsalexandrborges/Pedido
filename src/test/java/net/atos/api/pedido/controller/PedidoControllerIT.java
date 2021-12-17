@@ -64,7 +64,7 @@ public class PedidoControllerIT {
 		assertNotNull(this.entityManager);
 
 	}
-/*
+
 	@Test
 	@DisplayName("Envio do pedido sem os campos obrigatórios")
 	public void testEnvioSemDados() throws Exception {
@@ -79,7 +79,7 @@ public class PedidoControllerIT {
 				.andExpect(status().isBadRequest());
 
 	}
-*/
+
 	@Test    
     @DisplayName("Cria Pedido")
     public void testPedidoCriado() throws Exception {

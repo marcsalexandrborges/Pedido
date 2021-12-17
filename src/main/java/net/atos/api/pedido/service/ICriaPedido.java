@@ -6,7 +6,7 @@ import net.atos.api.pedido.domain.PedidoVO;
 
 public interface ICriaPedido {
 	
-public PedidoVO criar(@NotNull(message = "Pedido não pode ser nulo") PedidoVO pedido);
+	public PedidoVO criar(@NotNull(message = "Pedido não pode ser nulo") PedidoVO pedido);
 	
 	public boolean isValid(Integer numPedido);
 

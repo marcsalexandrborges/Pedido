@@ -50,17 +50,14 @@ public class PedidoEntity implements Serializable{
 	private List<ItemEntity> itens;
 	
 	@Column(name = "QTD_ITENS")
-	@NotNull(message = "Campo quantidade não pode ser nulo")
 	@Positive
 	private Integer quantidade;
 	
 	@Column(name = "VALOR_PEDIDO")
-	@NotNull(message="Campo valor do pedido não pode ser nulo")
 	@Positive
 	private Double valor;
 	
 	@Column(name = "DT_EMISSAO")
-	@NotNull(message = "Campo data de emissão não pode ser nula")
 	private LocalDate dataEmissao;
 	
 	public void add(ItemEntity item) {

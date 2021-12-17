@@ -16,7 +16,7 @@ public class CriaPedidoQueueConfig {
 	@Bean
 	public Queue criaPedidoQueue() {
 		return QueueBuilder
-				.durable("cria-pedido-servico")
+				.durable("cria-pedido")
 				.deadLetterExchange("orcamento")
 				.deadLetterRoutingKey("orc.created.pedido-dead-letter")
 				.build();
@@ -41,7 +41,7 @@ public class CriaPedidoQueueConfig {
 	@Bean
 	public Queue criaPedidoQueueDeadLetter() {
 		return QueueBuilder
-				.durable("cria-pedido-servico-deadletter")				
+				.durable("cria-pedido-deadletter")				
 				.build();
 		
 	}

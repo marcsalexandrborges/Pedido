@@ -26,12 +26,10 @@ public class PedidoVO {
 	@Valid
 	private List<ItemVO> itens;
 		
-	@NotNull(message="Campo valor do pedido não pode ser nulo")
 	@Positive
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Double valor;
 	
-	@NotNull(message = "Campo data de emissão do pedido não pode ser nula")
 	@JsonFormat(pattern="yyyy-MM-dd")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private LocalDate dataEmissao;

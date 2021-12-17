@@ -87,18 +87,14 @@ public class CriaPedidoTest {
 		var assertThrows = assertThrows(ConstraintViolationException.class, ()->
 							criaPedido.criar(pedido));
 		
-		assertEquals(4, assertThrows.getConstraintViolations().size());
+		assertEquals(1, assertThrows.getConstraintViolations().size());
 		List<String> mensagens = assertThrows.getConstraintViolations()
 		     .stream()
 		     .map(ConstraintViolation::getMessage)
 		     .collect(Collectors.toList());
 
 
-		assertThat(mensagens, hasItems("Campo item não pode ser nulo",
-				"Campo quantidade pedido não pode ser nulo",
-				"Campo valor do pedido não pode ser nulo",
-				"Campo data de emissão do pedido não pode ser nula"
-				));
+		assertThat(mensagens, hasItems("Campo item não pode ser nulo"));
 		
 	}
 	
@@ -126,37 +122,11 @@ public class CriaPedidoTest {
 		
 		assertThat(mensagens, hasItems("Codigo do item não pode ser nulo",
 				"Campo preço unitario não pode ser nulo",
-				"Campo descricao não pode ser nulo"
+				"Campo descricao não pode ser nulo",
+				"Campo quantidade não pode ser nulo"
+				
 				));
 		
-	}
-	
-	@Test	
-	@DisplayName("Testa data de emissão do pedido não diferente do dia atual.")
-	public void testDTDiferenteAtual() {
-		assertNotNull(criaPedido);
-
-		PedidoVO pedido =  new PedidoVO();
-		pedido.setDataEmissao(LocalDate.now().minusDays(1l));		
-		pedido.setId(1L);
-		pedido.setValor(10.0);
-		
-			
-		ItemVO item = new ItemVO();
-		item.setCodigoItem(1);
-		item.setPrecoUnitario(10.0);
-		item.setQuantidade(8);
-		item.setDescricao("Coca");
-		item.setValorItens(10.0);
-		pedido.add(item);
-		
-		var assertThrows = assertThrows(BadRequestException.class, ()->
-			criaPedido.criar(pedido));
-
-		
-		assertEquals(assertThrows.getMessage(),"A data de emissão do pedido deve ser atual.");
-		
-			
 	}
 	
 	@Test	
