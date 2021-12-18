@@ -31,7 +31,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import net.atos.api.pedido.domain.ItemVO;
+import net.atos.api.pedido.domain.ItemPedidoVO;
 import net.atos.api.pedido.domain.PedidoVO;
 import net.atos.api.pedido.repository.IPedidoRepository;
 	
@@ -108,7 +108,7 @@ public class CriaPedidoTest {
 		pedido.setId(1L);
 		pedido.setValor(10.0);
 		
-		ItemVO item = new ItemVO();
+		ItemPedidoVO item = new ItemPedidoVO();
 		pedido.add(item);
 		
 		var assertThrows = assertThrows(ConstraintViolationException.class, ()->
@@ -140,7 +140,7 @@ public class CriaPedidoTest {
 		pedido.setValor(10.0);
 		
 			
-		ItemVO item = new ItemVO();
+		ItemPedidoVO item = new ItemPedidoVO();
 		item.setCodigoItem(1);
 		item.setPrecoUnitario(10.0);
 		item.setQuantidade(8);

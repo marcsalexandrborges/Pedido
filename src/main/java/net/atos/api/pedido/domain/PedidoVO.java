@@ -24,7 +24,7 @@ public class PedidoVO {
 	@NotNull(message = "Campo item não pode ser nulo")
 	@Size(min = 1, message = "Campo item não pode ser nulo")
 	@Valid
-	private List<ItemVO> itens;
+	private List<ItemPedidoVO> itens;
 		
 	@Positive
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -34,8 +34,8 @@ public class PedidoVO {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private LocalDate dataEmissao;
 	
-	public void add(ItemVO item) {
-		List<ItemVO> itensPedido = 
+	public void add(ItemPedidoVO item) {
+		List<ItemPedidoVO> itensPedido = 
 				Optional.ofNullable(this.getItens()).orElseGet(()->new ArrayList());		
 		itensPedido.add(item);
 		

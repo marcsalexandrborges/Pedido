@@ -32,7 +32,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.atos.api.pedido.controller.page.PaginatedResponse;
-import net.atos.api.pedido.domain.ItemVO;
+import net.atos.api.pedido.domain.ItemPedidoVO;
 import net.atos.api.pedido.domain.PedidoVO;
 
 
@@ -87,7 +87,7 @@ public class PedidoControllerIT {
 		pedido.setValor(10.0);
 		pedido.setDataEmissao(LocalDate.now());
 		
-		ItemVO item = new ItemVO();
+		ItemPedidoVO item = new ItemPedidoVO();
 		item.setCodigoItem(45);
 		item.setPrecoUnitario(3.5);
 		item.setQuantidade(8);

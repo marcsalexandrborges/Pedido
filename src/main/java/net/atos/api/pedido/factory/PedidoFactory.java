@@ -2,7 +2,7 @@ package net.atos.api.pedido.factory;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import net.atos.api.pedido.domain.ItemVO;
+import net.atos.api.pedido.domain.ItemPedidoVO;
 import net.atos.api.pedido.domain.PedidoVO;
 import net.atos.api.pedido.repository.ItemEntity;
 import net.atos.api.pedido.repository.ItemPK;
@@ -36,7 +36,7 @@ public class PedidoFactory {
 	}
 
 	private void construirItemVO(PedidoVO orcVO, AtomicInteger numeroItem, ItemEntity item) {
-		ItemVO itemVO = new ItemVO();
+		ItemPedidoVO itemVO = new ItemPedidoVO();
 		itemVO.setCodigoItem(item.getCodigoItem());
 		itemVO.setPrecoUnitario(item.getPrecoUnitario());
 		itemVO.setDescricao(item.getDescricao());
@@ -57,7 +57,7 @@ public class PedidoFactory {
 		return orcEntity;
 	}
 
-	private void construirItemEntity(PedidoEntity orcEntity, AtomicInteger numeroItem, ItemVO item) {
+	private void construirItemEntity(PedidoEntity orcEntity, AtomicInteger numeroItem, ItemPedidoVO item) {
 		ItemEntity itemEntity = new ItemEntity();
 		itemEntity.setId(new ItemPK());
 		itemEntity.getId().setItem(numeroItem.incrementAndGet());

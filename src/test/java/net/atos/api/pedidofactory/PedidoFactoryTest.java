@@ -13,7 +13,7 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import net.atos.api.pedido.domain.ItemVO;
+import net.atos.api.pedido.domain.ItemPedidoVO;
 import net.atos.api.pedido.domain.PedidoVO;
 import net.atos.api.pedido.factory.PedidoFactory;
 import net.atos.api.pedido.repository.PedidoEntity;
@@ -31,7 +31,7 @@ public class PedidoFactoryTest {
 		pedido.setValor(10.0);
 		
 			
-		ItemVO item = new ItemVO();
+		ItemPedidoVO item = new ItemPedidoVO();
 		item.setCodigoItem(1);
 		item.setPrecoUnitario(10.0);
 		item.setQuantidade(8);
