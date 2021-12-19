@@ -1,13 +1,11 @@
 package net.atos.api.pedido.service;
 
-import java.time.LocalDate;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 import javax.validation.constraints.NotNull;
-import javax.ws.rs.BadRequestException;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +27,7 @@ public class CriaPedido implements ICriaPedido {
 	}
 
 	@Transactional
-	public PedidoVO criar(@NotNull(message = "Pedido não pode ser nulo") PedidoVO pedido) {
+	public PedidoVO aprovar(@NotNull(message = "Pedido não pode ser nulo") PedidoVO pedido) {
 
 		Set<ConstraintViolation<PedidoVO>> 
 		validateMessages = this.validator.validate(pedido);
@@ -37,12 +35,8 @@ public class CriaPedido implements ICriaPedido {
 		if (!validateMessages.isEmpty()) {
 			throw new ConstraintViolationException("Pedido Inválido",validateMessages);
 		}
-
-		if (!pedido.getDataEmissao().isEqual(LocalDate.now())) {
-			throw new BadRequestException("A data de emissão do pedido deve ser atual.");			
-		}
 		
-		PedidoEntity pedidoEntity = new PedidoFactory(pedido).toEntity();				
+		PedidoEntity pedidoEntity = new PedidoFactory(pedido).toEntity();
 
 		pedidoRepository.save(pedidoEntity);		
 		
@@ -51,11 +45,6 @@ public class CriaPedido implements ICriaPedido {
 		return pedido; 
 
 	
-	}
-
-	@Override
-	public boolean isValid(Integer numPedido) {
-		return numPedido > 0;	
 	}
 
 }

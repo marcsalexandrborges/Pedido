@@ -1,20 +1,16 @@
 package net.atos.api.pedido.controller;
 
-import java.net.URI;
-
-import javax.validation.Valid;
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import io.swagger.v3.oas.annotations.Operation;
 import net.atos.api.pedido.domain.PedidoVO;
-import net.atos.api.pedido.service.CriaPedido;
+import net.atos.api.pedido.service.ConsultaPedido;
 
 
 @RestController
@@ -22,28 +18,20 @@ import net.atos.api.pedido.service.CriaPedido;
 //@Tag(name = "Pedido")
 public class PedidoController {
 
-	private CriaPedido criaPedidoService;
-	
-	
+	private ConsultaPedido consultaPedido;
 
-	public PedidoController(CriaPedido criaService) {
-		super();
-		
-		this.criaPedidoService = criaService;
-		
-
+	public PedidoController(ConsultaPedido buscaPedido) {
+		super();		
+		this.consultaPedido = buscaPedido;	
 	}
+	
+	@GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON })
+	@Operation(description = "Consulta um pedido por id")
+	public ResponseEntity<PedidoVO> getPedidoPorId(@PathVariable("id") Long id) {
 
-	@PostMapping(produces = { MediaType.APPLICATION_JSON }, consumes = { MediaType.APPLICATION_JSON })
-	@Operation(description = "Cria um pedido")
-	public ResponseEntity<PedidoVO> criaPedido(@Valid @RequestBody PedidoVO pedido) {
+		PedidoVO pedidoEncontrado = consultaPedido.porId(id);
 
-		PedidoVO createdPedido = criaPedidoService.criar(pedido);
-
-		URI uri = MvcUriComponentsBuilder.fromController(getClass()).path("/{id}")
-				.buildAndExpand(createdPedido.getId()).toUri();
-
-		return ResponseEntity.created(uri).body(createdPedido);
+		return ResponseEntity.ok(pedidoEncontrado);
 	}
 	
 }

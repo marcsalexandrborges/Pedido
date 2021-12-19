@@ -1,14 +1,9 @@
 package net.atos.api.pedido.repository;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,13 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
 
 import lombok.Data;
 
@@ -30,8 +21,6 @@ import lombok.Data;
 @Entity
 @Table(name = "TB_PEDIDO")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-//@DiscriminatorColumn(name="OP_PEDIDO", 
-//discriminatorType = DiscriminatorType.STRING)
 public class PedidoEntity implements Serializable{
 	
 
@@ -42,31 +31,19 @@ public class PedidoEntity implements Serializable{
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sq_pedido")	
 	@SequenceGenerator(name = "sq_pedido",sequenceName = "sequence_pedido", allocationSize = 1, initialValue = 1)
 	private Long id;
-
-	@NotNull(message = "Campo item não pode ser nulo")
-	@Size(min = 1, message = "Campo item não pode ser nulo")
-	@Valid
-	@OneToMany(mappedBy = "id.pedido", cascade = CascadeType.ALL)
-	private List<ItemEntity> itens;
 	
-	@Column(name = "QTD_ITENS")
-	@Positive
-	private Integer quantidade;
+	@NotNull(message="Campo id do orcamento não pode ser nulo")
+	@Column(name = "ID_ORCAMENTO")
+	private Long idOrcamento;
 	
-	@Column(name = "VALOR_PEDIDO")
-	@Positive
+	@Column(name = "VALOR_ORCAMENTO")
 	private Double valor;
 	
-	@Column(name = "DT_EMISSAO")
+	@Column(name = "DT_EMISSAO_ORCAMENTO")
 	private LocalDate dataEmissao;
 	
-	public void add(ItemEntity item) {
-		List<ItemEntity> itensPedido = 
-				Optional.ofNullable(this.getItens()).orElseGet(()->new ArrayList());		
-		itensPedido.add(item);
-		
-		this.itens = itensPedido; 
-	}
+	@Column(name = "STATUS_ORCAMENTO")
+	private String status;
 	
 	@Override
 	public int hashCode() {

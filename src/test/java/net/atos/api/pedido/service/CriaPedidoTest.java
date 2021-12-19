@@ -9,7 +9,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,7 +18,6 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import javax.ws.rs.BadRequestException;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,16 +29,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import net.atos.api.pedido.domain.ItemPedidoVO;
 import net.atos.api.pedido.domain.PedidoVO;
 import net.atos.api.pedido.repository.IPedidoRepository;
 	
-
+	
 @ExtendWith(MockitoExtension.class)
 @TestInstance(Lifecycle.PER_CLASS)
 public class CriaPedidoTest {
 	
-	private CriaPedido criaPedido;
+	private CriaPedido aprovaPedido;
 
 	private Validator validator;
 	
@@ -58,20 +55,19 @@ public class CriaPedidoTest {
 		
 		this.pedidoRepository = Mockito.mock(IPedidoRepository.class);
 		
-		criaPedido = new CriaPedido(validator, pedidoRepository);	
+		aprovaPedido = new CriaPedido(validator, pedidoRepository);	
 	}
 	
 	@Test
 	@DisplayName("Testa quando o pedido é nulo")
 	void test_quando_pedido_Eh_Null_LancarExcecao() {
 
-		assertNotNull(criaPedido);
+		assertNotNull(aprovaPedido);
 
 		PedidoVO pedido =  null;
 
 		var assertThrows = assertThrows(IllegalArgumentException.class, ()->
-							criaPedido.criar(pedido));
-		
+							aprovaPedido.aprovar(pedido));
 		assertNotNull(assertThrows);
 		
 	}
@@ -80,12 +76,12 @@ public class CriaPedidoTest {
 	@DisplayName("Testa os campos obrigatorios do pedido.")
 	void testCamposObrigatorios() {
 
-		assertNotNull(criaPedido);
+		assertNotNull(aprovaPedido);
 
-		PedidoVO pedido =  new PedidoVO();
+		PedidoVO pedido = new PedidoVO();
 
 		var assertThrows = assertThrows(ConstraintViolationException.class, ()->
-							criaPedido.criar(pedido));
+							aprovaPedido.aprovar(pedido));
 		
 		assertEquals(1, assertThrows.getConstraintViolations().size());
 		List<String> mensagens = assertThrows.getConstraintViolations()
@@ -94,61 +90,23 @@ public class CriaPedidoTest {
 		     .collect(Collectors.toList());
 
 
-		assertThat(mensagens, hasItems("Campo item não pode ser nulo"));
-		
-	}
-	
-	@Test	
-	@DisplayName("Testa obrigatoriedade do campo dos itens.")
-	public void testCamposObrigatoriosItens() {
-		assertNotNull(criaPedido);
-
-		PedidoVO pedido =  new PedidoVO();
-		pedido.setDataEmissao(LocalDate.now());
-		pedido.setId(1L);
-		pedido.setValor(10.0);
-		
-		ItemPedidoVO item = new ItemPedidoVO();
-		pedido.add(item);
-		
-		var assertThrows = assertThrows(ConstraintViolationException.class, ()->
-			criaPedido.criar(pedido));
-
-		assertEquals(4, assertThrows.getConstraintViolations().size());
-		List<String> mensagens = assertThrows.getConstraintViolations()
-		     .stream()
-		     .map(ConstraintViolation::getMessage)
-		     .collect(Collectors.toList());
-		
-		assertThat(mensagens, hasItems("Codigo do item não pode ser nulo",
-				"Campo preço unitario não pode ser nulo",
-				"Campo descricao não pode ser nulo",
-				"Campo quantidade não pode ser nulo"
-				
-				));
+		assertThat(mensagens, hasItems("Campo id do orcamento não pode ser nulo"));
 		
 	}
 	
 	@Test	
 	@DisplayName("Testa a criação do pedido.")
 	public void testCriaPedido() {
-		assertNotNull(criaPedido);	
+		assertNotNull(aprovaPedido);	
 		
 		PedidoVO pedido =  new PedidoVO();
 		pedido.setDataEmissao(LocalDate.now());		
 		pedido.setId(1L);
+		pedido.setIdOrcamento(1L);
 		pedido.setValor(10.0);
+		pedido.setStatus("Valido");
 		
-			
-		ItemPedidoVO item = new ItemPedidoVO();
-		item.setCodigoItem(1);
-		item.setPrecoUnitario(10.0);
-		item.setQuantidade(8);
-		item.setDescricao("Coca");
-		item.setValorItens(10.0);
-		pedido.add(item);
-		
-		criaPedido.criar(pedido);
+		aprovaPedido.aprovar(pedido);
 		
 		then(pedidoRepository).should(times(1)).save(any());
 		
